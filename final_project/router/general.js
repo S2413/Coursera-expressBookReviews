@@ -9,33 +9,19 @@ public_users.post("/register", (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (username && password){
+    if (!username || !password){
+        return res.status(404).json( message = "Please enter a value for both username and password");
+    }
 
-        let usernameAlreadyInUse;
+    let usernameAlreadyInUse = isValid(username);
 
-        for (const user of users){
-            if (user.username === username){
-                usernameAlreadyInUse = true;
-            }
-
-            else{
-                usernameAlreadyInUse = false;
-            }
-        }
-
-        if (!usernameAlreadyInUse){
-            users.push({"username": username, "password": password});
-            return res.status(200).json( message = "Registration Complete. Your account is now active");
-        }
-
-        else{
-            return res.status(404).json( message = "User Already Exists");
-        }
-
+    if (!usernameAlreadyInUse){
+        users.push({"username": username, "password": password});
+        return res.status(200).json( message = "Registration Complete. Your account is now active");
     }
 
     else{
-        return res.status(404).json( message = "Please enter a value for both username and password");
+        return res.status(404).json( message = "User Already Exists");
     }
 
 });
