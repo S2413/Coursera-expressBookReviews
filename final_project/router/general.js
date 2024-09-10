@@ -30,13 +30,35 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-    res.send(JSON.stringify(books,null,4));
+
+    console.log("Before calling promise")
+
+    let myPromise = new Promise((resolve,reject) => {
+        setTimeout(() => {
+            resolve(console.log("Promise has been resolved"));
+        }, 2000)
+    })
+
+    myPromise.then(() =>{    
+        res.send(JSON.stringify(books,null,4));
+    })
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  const isbn = parseInt(req.params.isbn);
-  res.send(books[isbn])
+
+    const isbn = parseInt(req.params.isbn);
+    console.log("Before calling promise")
+
+    let myPromise = new Promise((resolve,reject) => {
+        setTimeout(() => {
+            resolve(console.log("Promise has been resolved"));
+        }, 3000)
+    })
+
+    myPromise.then(() =>{
+        res.send(JSON.stringify(books[isbn],null,4));    
+    })
 });
   
 
@@ -50,10 +72,19 @@ public_users.get('/author/:author',function (req, res) {
   for (const key of bookKeys){
     if (books[parseInt(key)].author === author){
         selectedBooks.push(books[parseInt(key)]);
-    }
-  }
+    }}
 
-  res.send(selectedBooks);
+  console.log("Before calling promise")
+
+    let myPromise = new Promise((resolve,reject) => {
+        setTimeout(() => {   
+            resolve(console.log("Promise has been resolved"));
+        }, 4000)
+    })
+
+    myPromise.then(() =>{
+        res.send(JSON.stringify(selectedBooks,null,4));    
+    })
 });
 
 // Get all books based on title
@@ -68,7 +99,17 @@ public_users.get('/title/:title',function (req, res) {
     }
   }
 
-  res.send(selectedBooks);
+  console.log("Before calling promise")
+
+  let myPromise = new Promise((resolve,reject) => {
+      setTimeout(() => {
+        resolve(console.log("Promise has been resolved"));
+      }, 5000)
+  })
+
+  myPromise.then(() =>{
+    res.send(JSON.stringify(selectedBooks,null,4));    
+})
 
 });
 
